@@ -117,9 +117,9 @@ int main(int argc, char const *argv[])
 
 	PT_QuantApi::Init();
 
-	PT_QuantApi* api = PT_QuantApi::createApi(spi, true, PT_QuantTdAppEType_Test, false, PT_QuantMdAppEType_Real, true, false);    //此处只连接了行情业务服务器
+	PT_QuantApi* api = PT_QuantApi::createApi(spi, true, PT_QuantTdAppEType_Real, false, PT_QuantMdAppEType_Real, true, false);    //此处只连接了行情业务服务器
 
-	err = api->Login("test", "test");
+	err = api->Login("DevTest1", "abcd1234");
 
 	int codeNum = 1;
 	MD_CodeType *pSubWindCode = new MD_CodeType[codeNum];
