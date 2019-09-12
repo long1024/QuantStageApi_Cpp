@@ -79,6 +79,22 @@ namespace QuantPlus
 		}
 	};
 
+	class PT_QuantUserCodeControlDetail
+	{
+	public:
+		int64_t           nAccountId;
+		int               nVol;
+		PT_QuantUserCodeControlDetail()
+		{
+			nAccountId = 0;
+			nVol = 0;
+		}
+		~PT_QuantUserCodeControlDetail()
+		{
+
+		}
+	};
+
 	// 券池类
 	class PT_QuantUserCodeControl
 	{
@@ -86,11 +102,16 @@ namespace QuantPlus
 		char               szWinCode[64];
 		double             nCaptial;                   // 最大可用资金
 		int                nLendingAmount;             // 最大可用券
+
+		int                              nDetailNum;   // 可用明细数量
+		PT_QuantUserCodeControlDetail*   pDetail;      // 可用数量
 		PT_QuantUserCodeControl()
 		{
 			memset(szWinCode, 0, 64);
 			nCaptial = 0;
 			nLendingAmount = 0;
+			nDetailNum = 0;
+			pDetail = NULL;
 		}
 	};
 
@@ -528,6 +549,7 @@ namespace QuantPlus
 		int                         nSinglePositionHoldTime;         // 单笔持仓时间阈值
 		int                         nSinglePositionLoss;             // 单笔持仓亏损阈值(亏算资金量)
 		double               nSinglePercentPositionLoss;             // 单笔持仓亏损阈值(亏损比例)
+		int64_t  		     basePoint;							 	 // bp值
 		TD_QuantUserAuthen()
 		{
 			nId = 0;
@@ -540,8 +562,26 @@ namespace QuantPlus
 			nSinglePositionHoldTime = 1000000;
 			nSinglePositionLoss = 1000000;
 			nSinglePercentPositionLoss = 0.1;
+			basePoint = 0;
 		}
 		virtual ~TD_QuantUserAuthen()
+		{
+
+		}
+	};
+
+
+	class TD_QuantUserCodeInfoDetail
+	{
+	public:
+		int64_t           nAccountId;
+		int               nVol;
+		TD_QuantUserCodeInfoDetail()
+		{
+			nAccountId = 0;
+			nVol = 0;
+		}
+		~TD_QuantUserCodeInfoDetail()
 		{
 
 		}
@@ -553,6 +593,25 @@ namespace QuantPlus
 		char               szWinCode[64];
 		double             nCaptial;                   // 最大可用资金
 		int                nLendingAmount;             // 最大可用券
+
+		int                            nDetailNum;     // 可用明细数量
+		TD_QuantUserCodeInfoDetail*    pDetail;        // 可用明细
+		TD_QuantUserCodeInfo()
+		{
+			memset(szWinCode, 0, 64);
+			nCaptial = 0;
+			nLendingAmount = 0;
+			nDetailNum = 0;
+			pDetail = NULL;
+		}
+		~TD_QuantUserCodeInfo()
+		{
+			if (pDetail)
+			{
+				delete[] pDetail;
+				pDetail = NULL;
+			}
+		}
 	};
 
 	// 用户股票池
@@ -670,7 +729,11 @@ namespace QuantPlus
 
 		virtual ~TD_ReqOrderInsert()
 		{
-
+			if (pOrderDetail)
+			{
+				delete[] pOrderDetail;
+				pOrderDetail = NULL;
+			}
 		}
 	};
 
@@ -967,6 +1030,8 @@ namespace QuantPlus
 		StockMaxEntrustCount* pStockMaxEntrustCount;
 		///  资金通道是否可用
 		bool bStatus;
+		///  资金通道权限
+		bool bPermission;
 		///  资金账号层面可用资金
 		int nAvailableCaptial;
 
@@ -978,6 +1043,7 @@ namespace QuantPlus
 			pStockMaxEntrustCount = NULL;
 			bStatus = 0;
 			nAvailableCaptial = 0;
+			bPermission = true;
 		}
 		virtual ~TD_RspQryInitAccountMaxEntrustCount()
 		{
@@ -1024,6 +1090,8 @@ namespace QuantPlus
 		StockAccountMaxEntrustCount* pStockMaxEntrustCount;
 		///  资金通道是否可用
 		bool bStatus;
+		///  资金通道权限
+		bool bPermission;
 		///  资金账号层面可用资金
 		int nAvailableCaptial;
 		//   资金账号层面当日初始资金
@@ -1038,6 +1106,7 @@ namespace QuantPlus
 			bStatus = 0;
 			nAvailableCaptial = 0;
 			nTotalCaptial = 0;
+			bPermission = true;
 		}
 		virtual ~TD_RspQryAccountMaxEntrustCount()
 		{
@@ -1180,6 +1249,24 @@ namespace QuantPlus
 			}
 		}
 	};
+
+	class TD_ReqUpdateAccountPermission : public TD_Base_Msg
+	{
+	public:
+		int       nAccounid;
+		bool      bEnable;
+		TD_ReqUpdateAccountPermission()
+		{
+			nAccounid = 0;
+			bEnable = 0;
+		}
+		~TD_ReqUpdateAccountPermission()
+		{
+
+		}
+	};
+
+	typedef TD_ReqUpdateAccountPermission TD_RspUpdateAccountPermission;
 }
 
 

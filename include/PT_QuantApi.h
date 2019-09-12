@@ -85,6 +85,12 @@ namespace QuantPlus
 		///@return   无
 		///@remark   reqQueryAccountPriority接口回调
 		virtual void onRspQueryAccountPriority(const TD_RspQryPriority* rsp, int error, bool isEnd) {};
+		///盘中修改资金账户操作权限
+		///@Param    rsp        修改信息
+		///@Param    error      是否成功
+		///@return   返回不为0，请求失败，错误码参考TQuantErrorType::EQuantErrorType
+		///@remark   采用非阻塞模式
+		virtual void onRspUpdateAccountPermissions(const TD_RspUpdateAccountPermission* rsp, int error) {};
 	public: //交易业务逻辑回调
 		///下单回调
 		///@param    rsp              下单回调信息
@@ -368,10 +374,12 @@ namespace QuantPlus
 		virtual int GetCode() = 0;
 		///同步执行函数
 		///@remark:  同步模式中启用，调用该函数的线程作为回调线程
-		virtual void Run() = 0;
+		//virtual void Run() = 0;
+		static void Run();
 		///退出同步执行
 		///@remark:  强行退出同步执行
-		virtual void BreakExec() = 0;
+		//virtual void BreakExec() = 0;
+		static void BreakExec();
 	public:// 非业务级别接口
 		///获取所有用户信息
 		///@return   返回不为0，请求失败，错误码参考TQuantErrorType::EQuantErrorType
@@ -402,6 +410,11 @@ namespace QuantPlus
 		///@return   返回不为0，请求失败，错误码参考TQuantErrorType::EQuantErrorType
 		///@remark   采用非阻塞模式，nUserId为0，默认为查询全部
 		//  virtual int reqQueryAccountPriority(TD_ReqQryPriority* req) = 0;
+		///盘中修改资金账户操作权限
+		///@Param    req          禁用信息
+		///@return   返回不为0，请求失败，错误码参考TQuantErrorType::EQuantErrorType
+		///@remark   采用非阻塞模式
+		//  virtual int reqUpdateAccountPermissions(TD_ReqUpdateAccountPermission* req) = 0;
 	public:///交易业务接口
 		///下单
 		///@Param    req                  下单请求信息
