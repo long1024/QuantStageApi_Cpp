@@ -3,7 +3,7 @@
 | 项目名称 | Quant量化系统平台      | 研发单位 |  |
 | ---- | -------------------- | ---- | ------------ |
 | 文档名称 | QuantBaseApi cpp开发手册 | 项目版本 | beta5.2.1   |
-| 文档状态 | 编辑中                  | 发布日期 | 2018.12.21 |
+| 文档状态 | 编辑中                  | 发布日期 | 2019.09.12 |
 | 文档编辑 | 杨军辉、王龙               | 文档版本 | 0.1          |
 
 [项目主页](https://www.quantstage.com/) 
@@ -67,17 +67,20 @@ linux 版本目录结构如下
 	├─libPT_QuantApi.so
 	├─libPT_TradeDataApi.so
 	├─libPTNetwork.so
+	├─libuv.so.1
 	└─libsnappy.so.1
 
 ```
 
 将QuantBaseApi目录下所有so文件拷贝到系统默认路径下，或者自行添加环境变量即可
 
-snappy版本为1.1.3
+snappy版本为1.1.7
 
 protobuf版本为3.3.0
 
 boost版本为1.64
+
+libuv版本为1.13.1
 
 [^注](https://github.com/abramwang/QuantPlusApi_Cpp/blob/master/doc/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%9E%E9%80%9A%E6%97%B6%E4%B8%BB%E5%8A%A8%E9%80%9A%E7%9F%A5): 头文件都在[Include](https://github.com/abramwang/QuantPlusApi_Cpp/tree/master/include)中
 
